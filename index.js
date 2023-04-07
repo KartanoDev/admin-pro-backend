@@ -26,6 +26,10 @@ app.use('/api/login', require('./routes/auth'));
 // Configurar CORS
 app.use(cors());
 
+// Carpeta publica
+
+app.use(express.static('public'));
+
 app.listen(env.PORT, () =>
 {
     console.log('Servidor corriendo en el puerto ' + env.PORT);
