@@ -47,19 +47,51 @@ const crearMedico = async (req, res = response) =>
 const actualizarMedico = async (req, res = response) =>
 {
 
-    res.json({
-        ok: true,
-        msg: 'actualizarMedico'
-    });
+    try
+    {
+        const id = req.params.id;
+        const uid = req.uid;
+        const cambiosMedico = {
+            ...req.body,
+            usuario: uid
+        };
+        const medicoActualizado = await Medico.findByIdAndUpdate(id, cambiosMedico, {new: true});
+
+        res.json({
+            ok: true,
+            medico: medicoActualizado
+        });
+    } catch (error)
+    {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'No se ha podido actualizar el médico.'
+        });
+    }
 };
 
 const eliminarMedico = async (req, res = response) =>
 {
 
-    res.json({
-        ok: true,
-        msg: 'eliminarMedico'
-    });
+    try
+    {
+        const id = req.params.id;
+        const medicoBorrado = await Medico.findByIdAndDelete(id);
+
+        res.json({
+            ok: true,
+            medico: medicoBorrado,
+            msg: 'Medico borrado correctamente'
+        });
+    } catch (error)
+    {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'No se ha podido eliminar el médico.'
+        });
+    }
 };
 
 
